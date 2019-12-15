@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <!--/*/ <th:block th:include="@{common/static_contents} :: head"></th:block> /*/-->
+    <style>
+        #map{
+            height:800px;
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+<h1 th:text="${greetings}"></h1>
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <div id="map"></div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function initMap() {
+        // Map options
+        var germany = google.maps.LatLng(52.7432613,5.2324707);
+        var options = {center: germany, zoom: 15}
+        // New map
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        google.maps.event.addListener(map, 'click', function(event){
+          // Add marker
+            console.log(event.latLng)
+          addMarker({coords:event.latLng});
+        });
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDae2H0PaN2z9ix_3NokFl2fKJ8_cyDRJ8&callback=initMap">
+</script>
+</html>
