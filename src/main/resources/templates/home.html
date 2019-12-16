@@ -4,11 +4,15 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <!--/*/ <th:block th:include="@{common/static_contents} :: head"></th:block> /*/-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
     <style>
-        #map{
-            height:800px;
-            width:100%;
-        }
+        #mapid { height: 180px; }
     </style>
 </head>
 <body>
@@ -19,28 +23,15 @@
 
         </div>
         <div class="col">
-            <div id="map"></div>
+            <div id="mapid"></div>
+
 
         </div>
     </div>
 </div>
 </body>
 <script>
-    function initMap() {
-        // Map options
-        var germany = google.maps.LatLng(52.7432613,5.2324707);
-        var options = {center: germany, zoom: 15}
-        // New map
-        var map = new google.maps.Map(document.getElementById('map'), options);
+    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
-        google.maps.event.addListener(map, 'click', function(event){
-          // Add marker
-            console.log(event.latLng)
-          addMarker({coords:event.latLng});
-        });
-    }
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDae2H0PaN2z9ix_3NokFl2fKJ8_cyDRJ8&callback=initMap">
 </script>
 </html>
