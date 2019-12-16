@@ -4,26 +4,20 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <!--/*/ <th:block th:include="@{common/static_contents} :: head"></th:block> /*/-->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-          crossorigin=""/>
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-            crossorigin=""></script>
-    <style>
-        #mapid { height: 180px; }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 </head>
 <body>
-<h1 th:text="${greetings}"></h1>
+<!--<h1 th:text="${greetings}"></h1>-->
 <div class="container">
     <div class="row">
         <div class="col">
-
+            <a href="https://codepen.io/exomark/pen/dafBD?__cf_chl_jschl_tk__=f9c2cd6b19527f598f13d4331399d9676178fef2-1576481110-0-AdAqQEo57M8eQcMlQ8ECGPJYMfjeiXvmFtp4oWXJZmpKRAwnxNpyqqzsiDBuI5UX8sGT14WbQkZWN4VIqu-r4wKZXKP9MJzBdtEY_SCdodzoDpjsIjpWnzojbElNT04qcRepvGng6IdHoNWGyg1eXpSpmx5WdjeljRcRuP0aRsGpBXtPmWHz9H5SM3Xw0tkLyqwahNB5pm6lgoS8KNEDrR638HvgpNxtVbiu50_L85qPjaYiOX504BhrTpTgS7M_218Z3Yc96YtVQnqH4bqpomVPEu4eHxIlNYZFRz8cF5LG0IIwbQLJ9uU6PuprbeMsw75ZwPaO3CEQjjyp5lJx2xw">
+                Location Search Link
+            </a>
         </div>
         <div class="col">
-            <div id="mapid"></div>
+            <div id="mapid" style="width: 600px; height: 400px;"></div>
 
 
         </div>
@@ -31,7 +25,51 @@
 </div>
 </body>
 <script>
-    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+    var littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
+        denver    = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
+        aurora    = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
+        golden    = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
+    var cities = L.layerGroup([littleton, denver, aurora, golden]);
+
+    var mymap = L.map('mapid', {
+        center: [39.73, -104.99],
+        zoom: 10,
+        drawControl: true,
+        layers: [cities]
+    });
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        id: 'mapbox/streets-v11'
+    }).addTo(mymap);
+
+
+    // var marker = L.marker([51.26191485308451, 10.04150390625]).addTo(mymap);
+    // marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+
+    function onMapClick(e) {
+        console.log(e);
+        var marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
+    }
+
+    mymap.on('click', onMapClick);
+
+    var searchControl = new L.Control.Search({
+        layer: cities,                //layer name to search
+        propertyName: 'Name',         //Search field
+        marker: false,
+        moveToLocation: function(latlng, title, mymap) {
+            mymap.setView(latlng, 7);    // set the zoom
+        }
+    });
+
+    // streets   = L.tileLayer(mapboxUrl, {id: 'MapID', attribution: mapboxAttribution});
+
+    // var map = L.map('map', {
+    // 	center: [39.73, -104.99],
+    // 	zoom: 10,
+    // 	layers: [grayscale, cities]
+    // });
 
 </script>
 </html>
