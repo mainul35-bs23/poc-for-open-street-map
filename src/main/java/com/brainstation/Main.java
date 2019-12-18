@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+//@Import(WebSecurityConfig.class)
 @SpringBootApplication
 public class Main extends SpringBootServletInitializer implements CommandLineRunner {
 

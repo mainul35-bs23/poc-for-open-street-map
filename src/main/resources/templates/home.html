@@ -6,12 +6,28 @@
     <!--/*/ <th:block th:include="@{common/static_contents} :: head"></th:block> /*/-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<!--    <link rel="stylesheet"
+          th:href="@{/libs/waitMe.min.css}"/>
+    <script type="application/javascript" th:src="@{/libs/waitMe.min.js}"></script>-->
+
 </head>
 <body>
-<!--<h1 th:text="${greetings}"></h1>-->
+<div class="loader"></div>
 <div class="container">
+    <h1 th:text="${contentTitle}"></h1>
+    <hr/>
     <div class="row">
         <div class="col">
+            <div class="form-group">
+                <label for="startDate">Trip Start Date</label>
+                <input readonly type="startDate" class="form-control" id="startDate" placeholder="Trip Start Date">
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                </div>
+            </div>
+            <h4>Personalization Information</h4><hr/>
             <!--<a href="https://codepen.io/exomark/pen/dafBD?__cf_chl_jschl_tk__=f9c2cd6b19527f598f13d4331399d9676178fef2-1576481110-0-AdAqQEo57M8eQcMlQ8ECGPJYMfjeiXvmFtp4oWXJZmpKRAwnxNpyqqzsiDBuI5UX8sGT14WbQkZWN4VIqu-r4wKZXKP9MJzBdtEY_SCdodzoDpjsIjpWnzojbElNT04qcRepvGng6IdHoNWGyg1eXpSpmx5WdjeljRcRuP0aRsGpBXtPmWHz9H5SM3Xw0tkLyqwahNB5pm6lgoS8KNEDrR638HvgpNxtVbiu50_L85qPjaYiOX504BhrTpTgS7M_218Z3Yc96YtVQnqH4bqpomVPEu4eHxIlNYZFRz8cF5LG0IIwbQLJ9uU6PuprbeMsw75ZwPaO3CEQjjyp5lJx2xw">
                 Location Search Link
             </a>-->
@@ -93,6 +109,7 @@
                 <label for="vehicleWeightUnladen">Vehicle Weight Unladen</label>
                 <input type="vehicleWeightUnladen" class="form-control" id="vehicleWeightUnladen" placeholder="Vehicle Weight Unladen">
             </div>
+            <h4>Routing Options</h4><hr/>
             <div class="form-group">
                 <label for="routingOptions">Routing Options</label>
                 <select class="form-control" id="routingOptions">
@@ -102,14 +119,19 @@
             </div>
         </div>
         <div class="col">
+            <h4>Select your travelling locations</h4> <p>(You can put several markers)</p><hr/>
             <div id="mapid" style="width: 600px; height: 600px;"></div>
-
-
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary post-trip-details">Next</button>
         </div>
     </div>
 </div>
 </body>
 <script>
+
     var mymap = L.map('mapid', {
         center: [42.4192498, 25.5897564],
         zoom: 7,
@@ -121,12 +143,112 @@
         id: 'mapbox/streets-v11'
     }).addTo(mymap);
 
+    var markerObjectArray = [];
+    var markerObjectLatLonArray = [];
+
     function onMapClick(e) {
         console.log(e);
-        var marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
+
+        var marker = L.marker(
+            [e.latlng.lat, e.latlng.lng], {
+                draggable: true
+            }
+        ).addTo(mymap);
+        markerObjectArray.push(marker);
+
+        // Drag a marker in map
+        marker.on("dragend", function(e) {
+            var position = marker.getLatLng();
+            var latLng = new L.LatLng(position.lat, position.lng);
+            console.log(latLng);
+            mymap.panTo(latLng);
+        });
+
     }
 
     mymap.on('click', onMapClick);
 
+    $('#startDate').datepicker({
+        format: 'dd/mm/yyyy',
+        startDate: '1d'
+    });
+
+    // To remove a marker from Map
+    // mymap.removeLayer(markerObjectArray[0]);
+    // markerObjectArray.remove(markerObjectArray[0])
+
+    $(".post-trip-details").on("click", function (e) {
+
+        // loader.show();
+        var formData = {};
+        var latLngArray = [];
+        var personalizationInformation = {};
+
+        markerObjectArray.forEach(function(item) {
+            var location = {latitude: item._latlng.lat, longitude: item._latlng.lng};
+            latLngArray.push(location);
+        });
+
+        formData.startDate = $("#startDate").val();
+        formData.locations = latLngArray;
+        personalizationInformation.axleHeight = $("#axleHeight").val();
+        personalizationInformation.axleNumberTractor = $("#axleNumberTractor").val();
+        personalizationInformation.axleNumberTrailer = $("#axleNumberTrailer").val();
+        personalizationInformation.co2EmissionValue = $("#co2EmissionValue").val();
+        personalizationInformation.copValue = $("#copValue").val();
+        personalizationInformation.euroValue = $("#euroValue").val();
+        personalizationInformation.numberOfTrailers = $("#numberOfTrailers").val();
+        personalizationInformation.overallVehicleHeight = $("#overallVehicleHeight").val();
+        personalizationInformation.overallVehicleLength = $("#overallVehicleLength").val();
+        personalizationInformation.overallVehicleWidth = $("#overallVehicleWidth").val();
+        personalizationInformation.vehicleClass = $("#vehicleClass").val();
+        personalizationInformation.vehicleMaxLadenWeight = $("#vehicleMaxLadenWeight").val();
+        personalizationInformation.vehicleTrainMaxWeight = $("#vehicleTrainMaxWeight").val();
+        personalizationInformation.vehicleWeight = $("#vehicleWeight").val();
+        personalizationInformation.vehicleWeightUnladen = $("#vehicleWeightUnladen").val();
+
+        formData.personalizationInformation = personalizationInformation;
+        formData.routingOptions = $("#routingOptions").val();
+
+        $.get("/trip-details-markup", function( markup ) {
+            $( ".container" ).html(markup);
+        }).done(function () {
+            $.ajax({
+                type: "POST",
+                url: "/trip-details",
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                success: function (data) {
+                    $(".routingOptions").html(data.obj.routingOptions);
+                    $(".numberOfAxles").html(data.obj.personalizationInformation.axleNumberTrailer);
+                    $(".expectedTravelDateTime").html(data.obj.startDate);
+                    data.obj.locations.forEach(function(location){
+
+                        var locationMarkup = "<div class=\"row\">\n" +
+                            "                                <div class=\"col\">\n" +
+                            "                                    <strong>Way Points 1</strong>\n" +
+                            "                                </div>\n" +
+                            "                                <div class=\"col\">\n" +
+                            "                                    <strong>"+location.longitude+"</strong>\n" +
+                            "                                </div>\n" +
+                            "                                <div class=\"col\">\n" +
+                            "                                    <strong>"+location.latitude+"</strong>\n" +
+                            "                                </div>\n" +
+                            "                            </div>";
+
+                        debugger;
+                        $(".locations").append(locationMarkup);
+                    });
+
+                    console.log(data);
+                },
+                error: function(err) {
+                    // loader.hide();
+                    console.error(err);
+                }
+            });
+        });
+
+    });
 </script>
 </html>
