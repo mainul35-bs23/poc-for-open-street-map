@@ -19,7 +19,7 @@
         <version>2.2.1.RELEASE</version>
     </parent>
 
-    <dependencies>memory
+    <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
