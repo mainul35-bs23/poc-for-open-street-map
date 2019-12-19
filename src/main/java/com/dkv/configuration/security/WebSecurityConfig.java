@@ -1,4 +1,4 @@
-package com.brainstation.configuration.security;
+package com.dkv.configuration.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

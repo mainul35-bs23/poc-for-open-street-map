@@ -1,4 +1,4 @@
-package com.brainstation.utils.response;
+package com.dkv.utils.response;
 
 public class Response<I> {
     private I obj;

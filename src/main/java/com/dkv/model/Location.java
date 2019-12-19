@@ -1,4 +1,4 @@
-package com.brainstation.model;
+package com.dkv.model;
 
 import lombok.Data;
 

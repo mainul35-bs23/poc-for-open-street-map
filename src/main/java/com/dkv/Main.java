@@ -1,4 +1,4 @@
-package com.brainstation;
+package com.dkv;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

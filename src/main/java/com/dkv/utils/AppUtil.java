@@ -1,6 +1,6 @@
-package com.brainstation.utils;
+package com.dkv.utils;
 
-import com.brainstation.repository.CriteriaQueryRepository;
+import com.dkv.repository.CriteriaQueryRepository;
 
 import java.io.IOException;
 import java.io.InputStream;

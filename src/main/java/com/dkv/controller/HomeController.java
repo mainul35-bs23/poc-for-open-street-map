@@ -1,7 +1,7 @@
-package com.brainstation.controller;
+package com.dkv.controller;
 
-import com.brainstation.model.TripDetails;
-import com.brainstation.utils.response.Response;
+import com.dkv.model.TripDetails;
+import com.dkv.utils.response.Response;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

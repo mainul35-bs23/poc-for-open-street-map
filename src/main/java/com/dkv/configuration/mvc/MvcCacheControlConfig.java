@@ -1,4 +1,4 @@
-package com.brainstation.configuration.mvc;
+package com.dkv.configuration.mvc;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
