@@ -8,7 +8,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 
-@PropertySource("classpath:db/db.properties")
 @SpringBootApplication
 public class Main extends SpringBootServletInitializer implements CommandLineRunner {
 
@@ -16,7 +15,6 @@ public class Main extends SpringBootServletInitializer implements CommandLineRun
         SpringApplication.run(Main.class, args);
     }
 
-    @Override
     public void run(String... args) throws Exception {
         System.out.println("App running");
     }
