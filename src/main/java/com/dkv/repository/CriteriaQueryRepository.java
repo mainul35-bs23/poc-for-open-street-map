@@ -1,6 +1,6 @@
-package com.brainstation.repository;
+package com.dkv.repository;
 
-import com.brainstation.utils.AppUtil;
+import com.dkv.utils.AppUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
