@@ -12,4 +12,8 @@ public class UserEntity {
     private Long id;
     @Column
     private String username;
+
+    public UserEntity(String username) {
+        this.username = username;
+    }
 }
