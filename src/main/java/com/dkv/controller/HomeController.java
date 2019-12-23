@@ -1,5 +1,7 @@
 package com.dkv.controller;
 
+import com.dkv.configuration.log4j2.DkvLogManager;
+import com.dkv.configuration.log4j2.PerformanceLogAudit;
 import com.dkv.model.TripDetails;
 import com.dkv.utils.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -10,9 +12,16 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
+    DkvLogManager dkvLogManager = DkvLogManager.getLogManager();
+
+    @PerformanceLogAudit
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index (Model model) {
         model.addAttribute("contentTitle", "Trip Details");
+        dkvLogManager.debug("Debug Log");
+        dkvLogManager.error("Error Log");
+        dkvLogManager.info("Info Log");
+        dkvLogManager.performanceLog("Performance Log");
         return "home";
     }
 
