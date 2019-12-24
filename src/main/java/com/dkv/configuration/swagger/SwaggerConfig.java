@@ -21,16 +21,14 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors
                         .basePackage("com.dkv.controller"))
                 .paths(PathSelectors.any())
-                .build().apiInfo(apiEndPointsInfo());
+                .build();//.apiInfo(apiEndPointsInfo());
     }
 
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("DKV API Handler APP REST API")
                 .description("REST API for DKV Application")
-                .contact(new Contact("Mainul Hasan", "", "mainul.hasan@b@gmail.com"))
-                .license("Apache 2.0")
-                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
-                .version("1.0.0")
+                .contact(new Contact("DKV", "", ""))
+                .version("1.0")
                 .build();
     }
 }
