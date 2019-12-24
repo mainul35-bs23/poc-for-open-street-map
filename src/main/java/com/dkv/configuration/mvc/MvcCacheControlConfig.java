@@ -9,12 +9,6 @@ public class MvcCacheControlConfig implements WebMvcConfigurer {
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        /*------------- Static Resource registry Starts --------------*/
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");//.setCachePeriod(999999999);
-
-        /*------------- Static Resource registry Ends --------------*/
-
-
         /*------------- Swagger UI Resource registry Starts --------------*/
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
