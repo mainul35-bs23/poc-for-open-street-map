@@ -6,9 +6,22 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Component
 public class MvcCacheControlConfig implements WebMvcConfigurer {
-    @Override
+
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        /*------------- Static Resource registry Starts --------------*/
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");//.setCachePeriod(999999999);
+
+        /*------------- Static Resource registry Ends --------------*/
+
+
+        /*------------- Swagger UI Resource registry Starts --------------*/
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+        /*------------- Swagger UI Resource registry Ends --------------*/
     }
 
 

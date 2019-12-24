@@ -20,7 +20,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2).select()
                 .apis(RequestHandlerSelectors
                         .basePackage("com.dkv.controller"))
-                .paths(PathSelectors.regex("/.*"))
+                .paths(PathSelectors.any())
                 .build().apiInfo(apiEndPointsInfo());
     }
 
