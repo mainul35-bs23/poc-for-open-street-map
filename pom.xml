@@ -14,6 +14,7 @@
         <spring.boot.dependency.version>2.2.1.RELEASE</spring.boot.dependency.version>
         <postgresql.version>42.2.9</postgresql.version>
         <contentful.version>10.4.0</contentful.version>
+        <swagger.version>2.9.2</swagger.version>
     </properties>
 
     <parent>
@@ -73,11 +74,23 @@
             <version>${postgresql.version}</version>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
 
         <dependency>
